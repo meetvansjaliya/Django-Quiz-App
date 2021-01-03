@@ -1,0 +1,22 @@
+{% extends 'basic.html' %}
+
+{% block title %} Quiz {% endblock %}
+
+{% block body %}
+
+{% for i in quiz %}
+<div class="card text-center ">
+    <div class="card-header">
+        <h5 class="card-title">{{ i.name }}</h5>
+    </div>
+    <div class="card-body">
+        <p class="card-text">{{ i.description }}</p>
+        <p class="card-text"><small class="text-muted">Publishing Date : {{ i.pub_date }}</small></p>
+        <a href="quizview/{{ i.id }}">
+        <button class="btn btn-primary ">Take Quiz</button></a>
+    </div>
+</div>
+{% endfor %}
+
+{% endblock %}
+

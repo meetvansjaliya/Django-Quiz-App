@@ -1,0 +1,82 @@
+{% extends 'basic.html' %}
+{% block title %} Quiz {% endblock %}
+
+{% block body %}
+
+<div class="col-lg-8 border p-4 m-4 mx-auto">
+  {% for q in questions %}
+  <h2 class="head">{{ q.quiz }}</h2>
+  <div class="ques">
+    <P>{{ q.order }}. {{ q.label }}</p>
+    <form>
+      <div class="form-check">
+        <input class="form-check-input rb" type="radio" name="name" id="option1" value="{{ q.option1 }}">
+        <label class="form-check-label" for="exampleRadios1">
+          {{ q.option1 }}
+        </label>
+      </div>
+      <div class="form-check">
+        <input class="form-check-input rb" type="radio" name="name" id="option2" value="{{ q.option2 }}">
+        <label class="form-check-label" for="exampleRadios2">
+          {{ q.option2 }}
+        </label>
+      </div>
+      <div class="form-check">
+        <input class="form-check-input rb" type="radio" name="name" id="option3" value="{{ q.option3 }}">
+        <label class="form-check-label" for="exampleRadios1">
+          {{ q.option3 }}
+        </label>
+      </div>
+      <div class="form-check">
+        <input class="form-check-input rb" type="radio" name="name" id="option4" value="{{ q.option4 }}">
+        <label class="form-check-label" for="exampleRadios1">
+          {{ q.option4 }}
+        </label>
+      </div>
+      <div>
+        <label id="corans" class="rb" style="display:none" for="{{q.ans}}"><b>{{ q.ans }}</b></label>
+      </div>
+  </div>
+  </form>
+  {% endfor %}
+
+  <div class="form-group">
+    <button class="btn btn-success" id="save_ans"> Submit Answer </button>
+  </div>
+
+  <div class="paginator">
+    <div class="form-group">
+      {% if questions.has_next %}
+      <a href="?page={{ questions.next_page_number }}"><button class="btn form-control btn-primary"
+          id="submitAnswer">Next</button></a>
+      {% else %}
+      <a href="/result/{{user.id}}"><button class="btn form-control btn-success" id="submitAnswer">Submit Quiz</button></a>
+      {% endif %}
+    </div>
+  </div>
+</div>
+
+{% endblock %}
+
+{% block js %}
+<script>
+window.onload = initall;
+var saveAnsButtton;
+function initall()
+{
+saveAnsButton = document.getElementById('save_ans');
+saveAnsButton.onclick = saveans;
+}
+function saveans()
+{
+var ans = $("input:radio[name=name]:checked").val();
+alert("Answer Submitted Click Next");
+
+var req = new XMLHttpRequest();
+req.open("GET", '/saveans?ans='+ans, true);
+req.send();
+
+}
+</script>
+
+{% endblock %}
